@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<AssemblyName>SourceGeneratorDemo.$(MSBuildProjectName)</AssemblyName>
 	<RootNamespace>SourceGeneratorDemo.$(MSBuildProjectName)</RootNamespace>
+	<Configurations>Debug;Release;Debug_Generator</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<AssemblyName>SourceGeneratorDemo.$(MSBuildProjectName)</AssemblyName>
 	<RootNamespace>SourceGeneratorDemo.$(MSBuildProjectName)</RootNamespace>
+	<Configurations>Debug;Release;Debug_Generator</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Infrastructure.Weather\Infrastructure.Weather.csproj" />
+	<ProjectReference Include="..\Generator.Mapping\Generator.Mapping.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" Condition="$(Configuration) == 'Debug_Generator'"/>
   </ItemGroup>
 
 </Project>

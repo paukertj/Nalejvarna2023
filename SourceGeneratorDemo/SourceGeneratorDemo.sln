@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "SourceGeneratorDemo\Api.csproj", "{7F311186-0876-4CBA-A79A-7A139E50E045}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "SourceGeneratorDemo\Api.csproj", "{7F311186-0876-4CBA-A79A-7A139E50E045}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{1B3083E5-BBE4-4369-8B05-536FC580BAF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{1B3083E5-BBE4-4369-8B05-536FC580BAF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Weather", "Infrastructure.Weather\Infrastructure.Weather.csproj", "{68A713F9-ED7D-449F-A7DA-B23C041BB505}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Weather", "Infrastructure.Weather\Infrastructure.Weather.csproj", "{68A713F9-ED7D-449F-A7DA-B23C041BB505}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator.Mapping", "Generator.Mapping\Generator.Mapping.csproj", "{0DCA7500-952E-435D-BC1B-9C73169F7034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generator.Mapping", "Generator.Mapping\Generator.Mapping.csproj", "{0DCA7500-952E-435D-BC1B-9C73169F7034}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{ACCA82F2-440E-4264-AB3F-DE2BC6748F99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,12 @@ Global
 		{0DCA7500-952E-435D-BC1B-9C73169F7034}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DCA7500-952E-435D-BC1B-9C73169F7034}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DCA7500-952E-435D-BC1B-9C73169F7034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACCA82F2-440E-4264-AB3F-DE2BC6748F99}.Debug_Generator|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACCA82F2-440E-4264-AB3F-DE2BC6748F99}.Debug_Generator|Any CPU.Build.0 = Debug|Any CPU
+		{ACCA82F2-440E-4264-AB3F-DE2BC6748F99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACCA82F2-440E-4264-AB3F-DE2BC6748F99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACCA82F2-440E-4264-AB3F-DE2BC6748F99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACCA82F2-440E-4264-AB3F-DE2BC6748F99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

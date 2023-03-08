@@ -1,5 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
-using System;
+using SourceGeneratorDemo.Generator.Mapping.Services.Mapping;
+using SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis;
+using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.Map;
 using System.Diagnostics;
 
 namespace SourceGeneratorDemo.Generator.Mapping
@@ -9,12 +11,20 @@ namespace SourceGeneratorDemo.Generator.Mapping
     {
         public void Execute(GeneratorExecutionContext context)
         {
-            //throw new NotImplementedException();
+            var semanticAnalysisService = new SemanticAnalysisService(context);
+
+            var syntaxReceiver = (IMapSyntaxReceiver)context.SyntaxReceiver;
+
+            var mappingService = new MappingService(semanticAnalysisService, syntaxReceiver);
+
+            mappingService.GetMappings();
         }
 
         public void Initialize(GeneratorInitializationContext context)
         {
-           // Debugger.Launch();
+            Debugger.Launch();
+
+            context.RegisterForSyntaxNotifications(() => new MapSyntaxReceiver());
         }
     }
 }

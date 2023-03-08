@@ -19,7 +19,7 @@ namespace SourceGeneratorDemo.Core.Services.Weather
 
         public async ValueTask<GetWeatherDomainResponse> GetWeatherAsync(GetWeatherDomainRequest request, CancellationToken cancellationToken)
         {
-            if (_validationService.ValidateRange(request?.From, request?.To) == false)
+            if (_validationService.CannotBeInFuture(request?.Day) == false)
             {
                 return null;
             }

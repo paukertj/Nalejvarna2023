@@ -10,7 +10,6 @@ namespace SourceGeneratorDemo.Core.Services.Weather
             CreateMap<GetWeatherDomainRequest, GetTemperatureInfrastructureRequest>();
 
             CreateMap<GetTemperatureInfrastructureResponse, GetWeatherDomainResponse>();
-            CreateMap<GetTemperatureInfrastructureResponse.Temperature, GetWeatherDomainResponse.Temperature>();
         }
     }
 }

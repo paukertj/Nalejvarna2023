@@ -1,6 +1,6 @@
-﻿namespace SourceGeneratorDemo.Core.Services.Weather
+﻿namespace SourceGeneratorDemo.Api.Controllers
 {
-    public sealed record GetWeatherDomainResponse
+    public sealed record WeatherHistoryDtoResponse
     {
         public DateOnly Day { get; init; }
 

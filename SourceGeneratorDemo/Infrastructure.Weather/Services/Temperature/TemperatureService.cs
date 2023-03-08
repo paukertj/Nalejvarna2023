@@ -14,28 +14,16 @@ namespace SourceGeneratorDemo.Infrastructure.Weather.Services.Temperature
         {
             ArgumentNullException.ThrowIfNull(request, nameof(request));
 
-            var temperatureRecords = new List<GetTemperatureInfrastructureResponse.Temperature>(request.To.DayNumber - request.From.DayNumber);
-            
-            for (var dateOnly = request.From; dateOnly <= request.To; dateOnly = dateOnly.AddDays(1))
+            if (TryGetTemperature(request.Day, out double temperature) == false)
             {
-                if (TryGetTemperature(dateOnly, out double temperature) == false)
-                {
-                    _temperatures[dateOnly] = temperature;
-                }
-
-                var temperatureRecord = new GetTemperatureInfrastructureResponse.Temperature
-                {
-                    Day = dateOnly,
-                    Temprature = _temperatures[dateOnly],
-                    Unit = Unit
-                };
-
-                temperatureRecords.Add(temperatureRecord);
+                _temperatures[request.Day] = temperature;
             }
 
             var response = new GetTemperatureInfrastructureResponse
             {
-                Temperatures = temperatureRecords
+                Day = request.Day,
+                Temprature = temperature,
+                Unit = Unit
             };
 
             return ValueTask.FromResult(response);

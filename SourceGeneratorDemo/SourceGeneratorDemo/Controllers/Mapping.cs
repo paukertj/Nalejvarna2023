@@ -9,8 +9,7 @@ namespace SourceGeneratorDemo.Api.Controllers
 
         public Mapping()
         {
-            CreateMap<GetWeatherDomainResponse, WeatherForecastDtoResponse>();
-            CreateMap<GetWeatherDomainResponse.Temperature, WeatherForecastDtoResponse.Temperature>();
+            CreateMap<GetWeatherDomainResponse, WeatherHistoryDtoResponse>();
         }
 
 #endif

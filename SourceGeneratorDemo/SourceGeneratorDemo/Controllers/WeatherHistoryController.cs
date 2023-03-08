@@ -7,29 +7,28 @@ namespace SourceGeneratorDemo.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherHistoryController : ControllerBase
     {
         private readonly IWeatherService _weatherService;
         private readonly IMapper _mapper;
 
-        public WeatherForecastController(IWeatherService weatherService, IMapper mapper)
+        public WeatherHistoryController(IWeatherService weatherService, IMapper mapper)
         {
             _weatherService = weatherService;
             _mapper = mapper;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public async ValueTask<WeatherForecastDtoResponse> Get(DateOnly from, DateOnly to, CancellationToken cancellationToken)
+        [HttpGet(Name = "GetWeatherHistory")]
+        public async ValueTask<WeatherHistoryDtoResponse> Get(DateOnly day, CancellationToken cancellationToken)
         {
             var domainRequest = new GetWeatherDomainRequest
             {
-                From = from,
-                To = to
+                Day = day,
             };
 
             var domainResponse = await _weatherService.GetWeatherAsync(domainRequest, cancellationToken);
 
-            var dtoResponse = _mapper.Map<WeatherForecastDtoResponse>(domainResponse);
+            var dtoResponse = _mapper.Map<WeatherHistoryDtoResponse>(domainResponse);
 
             return dtoResponse;
         }

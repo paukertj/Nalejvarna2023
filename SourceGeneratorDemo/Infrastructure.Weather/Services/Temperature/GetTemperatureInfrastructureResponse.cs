@@ -2,15 +2,10 @@
 {
     public sealed record GetTemperatureInfrastructureResponse
     {
-        public IReadOnlyList<Temperature> Temperatures { get; init; }
+        public DateOnly Day { get; init; }
 
-        public sealed record Temperature
-        {
-            public DateOnly Day { get; init; }
+        public double Temprature { get; init; }
 
-            public double Temprature { get; init; }
-
-            public string Unit { get; init; }
-        }
+        public string Unit { get; init; }
     }
 }

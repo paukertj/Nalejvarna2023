@@ -2,12 +2,13 @@
 {
     internal sealed class ValidationService : IValidationService
     {
-        public bool ValidateRange(DateOnly? from, DateOnly? to)
+        public bool CannotBeInFuture(DateOnly? day)
         {
-            return 
-                from != null && 
-                to != null &&
-                to > from;
+            var now = DateTimeOffset.Now.Date;
+
+            return
+                day != null &&
+                day <= new DateOnly(now.Year, now.Month, now.Day);
         }
     }
 }

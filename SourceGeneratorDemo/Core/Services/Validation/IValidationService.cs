@@ -2,6 +2,6 @@
 {
     internal interface IValidationService
     {
-        bool ValidateRange(DateOnly? from, DateOnly? to);
+        bool CannotBeInFuture(DateOnly? day);
     }
 }

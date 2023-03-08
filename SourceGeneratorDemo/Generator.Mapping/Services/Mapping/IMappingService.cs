@@ -1,7 +1,9 @@
-﻿namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
+﻿using System.Collections.Generic;
+
+namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
 {
     internal interface IMappingService
     {
-        void GetMappings();
+        IEnumerable<MappingDescription> GetMappings();
     }
 }

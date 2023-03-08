@@ -3,6 +3,7 @@ using SourceGeneratorDemo.Generator.Mapping.Services.Mapping;
 using SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis;
 using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.Map;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SourceGeneratorDemo.Generator.Mapping
 {
@@ -17,7 +18,7 @@ namespace SourceGeneratorDemo.Generator.Mapping
 
             var mappingService = new MappingService(semanticAnalysisService, syntaxReceiver);
 
-            mappingService.GetMappings();
+            var mappings = mappingService.GetMappings().ToList();
         }
 
         public void Initialize(GeneratorInitializationContext context)

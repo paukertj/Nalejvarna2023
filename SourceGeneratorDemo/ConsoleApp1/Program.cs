@@ -5,5 +5,16 @@ Console.WriteLine("Hello, World!");
 
 void Test(IMapper mapper)
 {
-    mapper.Map<object>("");
+    var a = new From();
+    mapper.Map<To>(a);
+}
+
+record From
+{
+    public int MyIntPropertyFrom { get; init; }
+}
+
+record To
+{
+    public int MyIntPropertyTo { get; init; }
 }

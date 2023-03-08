@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.Map
 {
-    internal class MapSyntaxReceiver : IMapSyntaxReceiver
+    internal sealed class MapSyntaxReceiver : IMapSyntaxReceiver
     {
         private readonly List<GenericNameSyntax> _mapperIdentifiers = new List<GenericNameSyntax>();
 

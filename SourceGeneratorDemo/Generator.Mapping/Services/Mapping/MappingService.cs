@@ -1,9 +1,10 @@
 ﻿using SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis;
 using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.Map;
+using System.Collections.Generic;
 
 namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
 {
-    internal class MappingService : IMappingService
+    internal sealed class MappingService : IMappingService
     {
         private readonly ISemanticAnalysisService _semanticAnalysisService;
         private readonly IMapSyntaxReceiver _mapSyntaxReceiver;
@@ -14,7 +15,7 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
             _mapSyntaxReceiver = mapSyntaxReceiver;
         }
 
-        public void GetMappings()
+        public IEnumerable<MappingDescription> GetMappings()
         {
             var genericNameSyntaxes = _mapSyntaxReceiver.GetGenericNameSyntax();
 
@@ -25,7 +26,25 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
                     continue;
                 }
 
+                var target = _semanticAnalysisService.GetMappingTarget(genericNameSyntax);
 
+                if (target == null)
+                {
+                    continue; // If there is no target, there is nothing to map
+                }
+
+                var source = _semanticAnalysisService.GetMappingSource(genericNameSyntax);
+
+                if (source == null)
+                {
+                    continue; // If there is no source, there is nothing to map
+                }
+
+                yield return new MappingDescription
+                {
+                    Target = target,
+                    Source = source
+                };
             }
         }
     }

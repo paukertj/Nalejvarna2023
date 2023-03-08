@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System.Collections.Generic;
 
 namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
 {
@@ -6,6 +7,8 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
     {
         bool IsAutomapperInvocation(SyntaxNode syntaxNode);
 
-        void GetTargetProperties(SyntaxNode syntaxNode);
+        MappingMember GetMappingTarget(SyntaxNode syntaxNode);
+
+        MappingMember GetMappingSource(SyntaxNode syntaxNode);
     }
 }

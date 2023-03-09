@@ -1,9 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
+using SourceGeneratorDemo.Generator.Mapping.Services.CodeGenerating;
 using SourceGeneratorDemo.Generator.Mapping.Services.Mapping;
 using SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis;
 using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.Map;
 using System.Diagnostics;
-using System.Linq;
 
 namespace SourceGeneratorDemo.Generator.Mapping
 {
@@ -18,7 +18,13 @@ namespace SourceGeneratorDemo.Generator.Mapping
 
             var mappingService = new MappingService(semanticAnalysisService, syntaxReceiver);
 
-            var mappings = mappingService.GetMappings().ToList();
+            var mappings = mappingService.GetMappings();
+
+            var codeGeneratingService = new CodeGeneratingService();
+
+            string code = codeGeneratingService.GenerateCode(mappings);
+
+            context.AddSource("Mapping.g.cs", code);
         }
 
         public void Initialize(GeneratorInitializationContext context)

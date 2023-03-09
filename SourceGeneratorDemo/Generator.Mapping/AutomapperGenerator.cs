@@ -2,6 +2,7 @@
 using SourceGeneratorDemo.Generator.Mapping.Services.CodeGenerating;
 using SourceGeneratorDemo.Generator.Mapping.Services.Mapping;
 using SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis;
+using SourceGeneratorDemo.Generator.Mapping.Services.SyntaxReceiving;
 using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.Map;
 using System.Diagnostics;
 
@@ -10,13 +11,22 @@ namespace SourceGeneratorDemo.Generator.Mapping
     [Generator]
     public class AutomapperGenerator : ISourceGenerator
     {
+        private readonly ISyntaxReceivingSevrvice _syntaxReceivingSevrvice;
+
+        public AutomapperGenerator()
+        {
+            _syntaxReceivingSevrvice = new SyntaxReceivingSevrvice();
+
+            _syntaxReceivingSevrvice.RegisterSyntaxReceiver<IMapSyntaxReceiver, MapSyntaxReceiver>();
+        }
+
         public void Execute(GeneratorExecutionContext context)
         {
             var semanticAnalysisService = new SemanticAnalysisService(context);
 
-            var syntaxReceiver = (IMapSyntaxReceiver)context.SyntaxReceiver;
+            var mapSyntaxReceiver = _syntaxReceivingSevrvice.GetSyntaxReceiver<IMapSyntaxReceiver>();
 
-            var mappingService = new MappingService(semanticAnalysisService, syntaxReceiver);
+            var mappingService = new MappingService(semanticAnalysisService, mapSyntaxReceiver);
 
             var mappings = mappingService.GetMappings();
 
@@ -31,7 +41,7 @@ namespace SourceGeneratorDemo.Generator.Mapping
         {
             Debugger.Launch();
 
-            context.RegisterForSyntaxNotifications(() => new MapSyntaxReceiver());
+            context.RegisterForSyntaxNotifications(() => _syntaxReceivingSevrvice);
         }
     }
 }

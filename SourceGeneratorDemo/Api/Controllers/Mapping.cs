@@ -9,14 +9,5 @@ namespace SourceGeneratorDemo.Api.Controllers
         {
             CreateMap<GetWeatherDomainResponse, WeatherHistoryDtoResponse>();
         }
-
-#if DEBUG_GENERATOR == false
-
-        public Mapping()
-        {
-            CreateMap<GetWeatherDomainResponse, WeatherHistoryDtoResponse>();
-        }
-
-#endif
     }
 }

@@ -37,7 +37,7 @@ namespace SourceGeneratorDemo.Generator.Mapping
 
             string code = codeGeneratingService.GenerateCode(mappings);
 
-            context.AddSource("Mapping.g.cs", code);
+            //context.AddSource("Mapping.g.cs", code);
         }
 
         public void Initialize(GeneratorInitializationContext context)

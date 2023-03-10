@@ -4,6 +4,6 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
 {
     internal interface IMappingService
     {
-        IEnumerable<MappingDescription> GetMappings();
+        IEnumerable<NewMappingDescription> GetMappingsToGenerate();
     }
 }

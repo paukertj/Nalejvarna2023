@@ -2,10 +2,10 @@
 
 namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
 {
-    public sealed record MappingDescription
+    public sealed record NewMappingDescription
     {
-        public MappingMember Source { get; set; }
+        public NewMappingMember Source { get; set; }
 
-        public MappingMember Target { get; set; }
+        public NewMappingMember Target { get; set; }
     }
 }

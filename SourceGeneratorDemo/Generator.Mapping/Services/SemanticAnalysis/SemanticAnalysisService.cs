@@ -15,11 +15,19 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
             _context = context;
         }
 
-        public MappingMember GetMappingSource(SyntaxNode syntaxNode)
+        public ITypeSymbol GetExistingMappingSource(SyntaxNode syntaxNode)
+        {
+            return null;
+        }
+
+        public ITypeSymbol GetExistingMappingTarget(SyntaxNode syntaxNode)
+        {
+            return null;
+        }
+
+        public NewMappingMember GetNewMappingSource(SyntaxNode syntaxNode)
         {
             var argumentSyntax = syntaxNode
-                .Parent
-                .Parent
                 .DescendantNodes()
                 .OfType<IdentifierNameSyntax>()
                 .Last();
@@ -38,7 +46,7 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
             // Give me all public getters that are available on the object
             var propertiesWithGetters = GetPublicMethodSymbols(declarationTypeInfo.Type, MethodKind.PropertyGet);
 
-            return new MappingMember
+            return new NewMappingMember
             {
                 PropertyMethod = propertiesWithGetters,
                 PropertyMethodsKind = MethodKind.PropertyGet,
@@ -46,7 +54,7 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
             };
         }
 
-        public MappingMember GetMappingTarget(SyntaxNode syntaxNode)
+        public NewMappingMember GetNewMappingTarget(SyntaxNode syntaxNode)
         {
             var predefinedTypeSyntax = syntaxNode
                 .DescendantNodes()
@@ -64,17 +72,10 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
 
             var declarationTypeInfo = semanticModel.GetTypeInfo(predefinedTypeSyntax);
 
-            if (declarationTypeInfo.Type == null)
-            {
-                // If this is happen, it is indicates bigger problem
-
-                throw new Exception($"Unable to get type for '{nameof(IdentifierNameSyntax)}' node.");
-            }
-
             // Give me all public setters that are available on the object
             var propertiesWithSetters = GetPublicMethodSymbols(declarationTypeInfo.Type, MethodKind.PropertySet);
 
-            return new MappingMember
+            return new NewMappingMember
             {
                 PropertyMethod = propertiesWithSetters,
                 PropertyMethodsKind = MethodKind.PropertySet,
@@ -86,7 +87,7 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
         {
             var firstParentNode = syntaxNode.Parent?
                 .DescendantNodes()?
-                .OfType<NameSyntax>()?
+                .OfType<IdentifierNameSyntax>()?
                 .FirstOrDefault();
 
             // firstParentNode should be node that represents the Mapper, so f.e. in this case '_mapper.Map<object>(o)' this should be NameSyntax of '_mapper'
@@ -105,6 +106,13 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
 
         private IEnumerable<IMethodSymbol> GetPublicMethodSymbols(ITypeSymbol typeSymbol, MethodKind methodKind)
         {
+            if (typeSymbol == null)
+            {
+                // If this is happen, it is indicates bigger problem
+
+                throw new Exception($"Unable to get type for '{nameof(ITypeSymbol)}'");
+            }
+
             var symbols = typeSymbol
                 .GetMembers()
                 .OfType<IMethodSymbol>()

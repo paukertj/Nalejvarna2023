@@ -19,7 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Infrastructure.Weather\Infrastructure.Weather.csproj" />
-	<ProjectReference Include="..\Generator.Mapping\Generator.Mapping.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" Condition="$(Configuration) == 'Debug_Generator'"/>
+	<ProjectReference Include="..\Generator.Mapping\Generator.Mapping.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" Condition="$(Configuration) == 'Debug_Generator'"/> 
   </ItemGroup>
 
 </Project>

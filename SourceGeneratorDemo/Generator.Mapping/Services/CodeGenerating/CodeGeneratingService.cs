@@ -11,7 +11,7 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.CodeGenerating
 {
     internal sealed class CodeGeneratingService : ICodeGeneratingService
     {
-        public string GenerateCode(IEnumerable<MappingDescription> mappingDescriptions)
+        public string GenerateCode(IEnumerable<NewMappingDescription> mappingDescriptions)
         {
             var compilationUnit = CompilationUnit();
 
@@ -28,7 +28,7 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.CodeGenerating
                     .ToString();
         }
 
-        private CompilationUnitSyntax GenerateMap(MappingDescription mappingDescription, CompilationUnitSyntax compilationUnit)
+        private CompilationUnitSyntax GenerateMap(NewMappingDescription mappingDescription, CompilationUnitSyntax compilationUnit)
         {
             return compilationUnit
                 .WithMembers(
@@ -48,7 +48,7 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.CodeGenerating
                 .NormalizeWhitespace();
         }
 
-        private void EnsureMapping(MappingDescription mappingDescription)
+        private void EnsureMapping(NewMappingDescription mappingDescription)
         {
             var sourceProperties = mappingDescription.Source.PropertyMethod
                 .Select(p => new PropertyDescription(p))

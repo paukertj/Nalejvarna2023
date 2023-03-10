@@ -1,29 +1,11 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Generic;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.Map
 {
-    internal sealed class MapSyntaxReceiver : IMapSyntaxReceiver
+    internal sealed class MapSyntaxReceiver : BaseSyntaxReceiver<GenericNameSyntax>, IMapSyntaxReceiver
     {
-        private readonly List<GenericNameSyntax> _mapperIdentifiers = new List<GenericNameSyntax>();
-
-        public IReadOnlyList<GenericNameSyntax> GetGenericNameSyntax()
+        public MapSyntaxReceiver() : base("Map")
         {
-            return _mapperIdentifiers;
-        }
-
-        public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
-        {
-            if (syntaxNode is not GenericNameSyntax genericNameSyntax)
-            {
-                return;
-            }
-
-            if (genericNameSyntax.Identifier.ValueText == "Map")
-            {
-                _mapperIdentifiers.Add(genericNameSyntax);
-            }
         }
     }
 }

@@ -1,5 +1,10 @@
-﻿using SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using SourceGeneratorDemo.Generator.Mapping.Extensions;
+using SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis;
+using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.CreateMap;
 using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.Map;
+using System;
 using System.Collections.Generic;
 
 namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
@@ -8,44 +13,82 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
     {
         private readonly ISemanticAnalysisService _semanticAnalysisService;
         private readonly IMapSyntaxReceiver _mapSyntaxReceiver;
+        private readonly ICreateMapSyntaxReceiver _createMapSyntaxReceiver;
 
-        public MappingService(ISemanticAnalysisService semanticAnalysisService, IMapSyntaxReceiver mapSyntaxReceiver)
+        public MappingService(
+            ISemanticAnalysisService semanticAnalysisService,
+            IMapSyntaxReceiver mapSyntaxReceiver,
+            ICreateMapSyntaxReceiver createMapSyntaxReceiver)
         {
             _semanticAnalysisService = semanticAnalysisService;
             _mapSyntaxReceiver = mapSyntaxReceiver;
+            _createMapSyntaxReceiver = createMapSyntaxReceiver;
         }
 
-        public IEnumerable<MappingDescription> GetMappings()
+        public IEnumerable<NewMappingDescription> GetMappingsToGenerate()
         {
-            var genericNameSyntaxes = _mapSyntaxReceiver.GetGenericNameSyntax();
+            var syntaxNodes = _mapSyntaxReceiver.GetSyntaxNode();
+            var existingMappings = GetMappings();
 
-            foreach (var genericNameSyntax in genericNameSyntaxes)
+            foreach (var syntaxNode in syntaxNodes)
             {
-                if (_semanticAnalysisService.IsAutomapperInvocation(genericNameSyntax) == false)
+                var memberAccessExpression = syntaxNode.FirstParentOfTypeAndSelf<MemberAccessExpressionSyntax>();
+
+                if (_semanticAnalysisService.IsAutomapperInvocation(memberAccessExpression) == false)
                 {
-                    continue;
+                    continue; // False alarm, this is some call of 'Map' method that not belongs to Automapper
                 }
 
-                var target = _semanticAnalysisService.GetMappingTarget(genericNameSyntax);
+                var target = _semanticAnalysisService.GetNewMappingTarget(memberAccessExpression);
 
                 if (target == null)
                 {
                     continue; // If there is no target, there is nothing to map
                 }
 
-                var source = _semanticAnalysisService.GetMappingSource(genericNameSyntax);
+                var source = _semanticAnalysisService.GetNewMappingSource(syntaxNode.Parent.Parent);
 
                 if (source == null)
                 {
                     continue; // If there is no source, there is nothing to map
                 }
 
-                yield return new MappingDescription
+                yield return new NewMappingDescription
                 {
                     Target = target,
                     Source = source
                 };
             }
+        }
+
+        private IEnumerable<ExistingMappingDescription> GetMappings()
+        {
+            var syntaxNodes = _createMapSyntaxReceiver.GetSyntaxNode();
+
+            foreach (var syntaxNode in syntaxNodes)
+            {
+                if (_semanticAnalysisService.IsAutomapperInvocation(syntaxNode) == false)
+                {
+                    continue; // False alarm, this is some call of 'CreateMap' method that not belongs to Automapper
+                }
+
+                var target = _semanticAnalysisService.GetExistingMappingTarget(syntaxNode);
+
+                if (target == null)
+                {
+                    continue; // If there is no target, there is nothing to map
+                }
+
+                var source = _semanticAnalysisService.GetExistingMappingSource(syntaxNode);
+
+                if (source == null)
+                {
+                    continue; // If there is no source, there is nothing to map
+                }
+
+            }
+
+            return null;
         }
     }
 }

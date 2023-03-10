@@ -3,6 +3,7 @@ using SourceGeneratorDemo.Generator.Mapping.Services.CodeGenerating;
 using SourceGeneratorDemo.Generator.Mapping.Services.Mapping;
 using SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis;
 using SourceGeneratorDemo.Generator.Mapping.Services.SyntaxReceiving;
+using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.CreateMap;
 using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.Map;
 using System.Diagnostics;
 
@@ -18,6 +19,7 @@ namespace SourceGeneratorDemo.Generator.Mapping
             _syntaxReceivingSevrvice = new SyntaxReceivingSevrvice();
 
             _syntaxReceivingSevrvice.RegisterSyntaxReceiver<IMapSyntaxReceiver, MapSyntaxReceiver>();
+            _syntaxReceivingSevrvice.RegisterSyntaxReceiver<ICreateMapSyntaxReceiver, CreateMapSyntaxReceiver>();
         }
 
         public void Execute(GeneratorExecutionContext context)
@@ -25,10 +27,11 @@ namespace SourceGeneratorDemo.Generator.Mapping
             var semanticAnalysisService = new SemanticAnalysisService(context);
 
             var mapSyntaxReceiver = _syntaxReceivingSevrvice.GetSyntaxReceiver<IMapSyntaxReceiver>();
+            var createMapSyntaxReceiver = _syntaxReceivingSevrvice.GetSyntaxReceiver<ICreateMapSyntaxReceiver>();
 
-            var mappingService = new MappingService(semanticAnalysisService, mapSyntaxReceiver);
+            var mappingService = new MappingService(semanticAnalysisService, mapSyntaxReceiver, createMapSyntaxReceiver);
 
-            var mappings = mappingService.GetMappings();
+            var mappings = mappingService.GetMappingsToGenerate();
 
             var codeGeneratingService = new CodeGeneratingService();
 
@@ -39,7 +42,7 @@ namespace SourceGeneratorDemo.Generator.Mapping
 
         public void Initialize(GeneratorInitializationContext context)
         {
-            Debugger.Launch();
+            //Debugger.Launch();
 
             context.RegisterForSyntaxNotifications(() => _syntaxReceivingSevrvice);
         }

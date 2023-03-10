@@ -5,6 +5,6 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.CodeGenerating
 {
     internal interface ICodeGeneratingService
     {
-        string GenerateCode(IEnumerable<MappingDescription> mappingDescriptions);
+        string GenerateCode(IEnumerable<NewMappingDescription> mappingDescriptions);
     }
 }

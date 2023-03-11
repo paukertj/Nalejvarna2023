@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,38 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
             _context = context;
         }
 
-        public ITypeSymbol GetExistingMappingSource(SyntaxNode syntaxNode)
+        public ExistingMappingMapDescription GetExistingMapping(SyntaxNode syntaxNode)
         {
-            return null;
+            // Here I should 
+            var genericArguments = syntaxNode
+                .DescendantNodes()
+                .OfType<IdentifierNameSyntax>()
+                .ToList();
+
+            if (genericArguments.Count == 2)
+            {
+                throw new Exception($"Unexpected count of generic arguments in CreateMap invocation, got '{genericArguments.Count}' but '2' expected");
+            }
+
+            var semanticModel = _context.Compilation.GetSemanticModel(syntaxNode.SyntaxTree);
+
+            // Now investigateing CreateMap<First, Last>(), we need to know types first
+            var source = semanticModel.GetTypeInfo(genericArguments.First()).Type;
+            var target = semanticModel.GetTypeInfo(genericArguments.Last()).Type;
+
+            return new ExistingMappingMapDescription
+            {
+                Source = source,
+                Target = target
+            };
         }
 
         public ITypeSymbol GetExistingMappingTarget(SyntaxNode syntaxNode)
         {
+            var semanticModel = _context.Compilation.GetSemanticModel(syntaxNode.SyntaxTree);
+
+            var declarationTypeInfo = semanticModel.GetTypeInfo(syntaxNode);
+
             return null;
         }
 

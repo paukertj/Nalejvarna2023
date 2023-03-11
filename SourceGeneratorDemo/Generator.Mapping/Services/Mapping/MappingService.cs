@@ -85,23 +85,17 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
                     continue; // False alarm, this is some call of 'CreateMap' method that not belongs to Automapper
                 }
 
-                var target = _semanticAnalysisService.GetExistingMappingTarget(syntaxNode);
+                var existingMappingMapDescription = _semanticAnalysisService.GetExistingMapping(syntaxNode);
 
-                if (target == null)
+                if (existingMappingMapDescription.Source == null || existingMappingMapDescription.Target == null)
                 {
-                    continue; // If there is no target, there is nothing to map
+                    continue;
                 }
 
-                var source = _semanticAnalysisService.GetExistingMappingSource(syntaxNode);
+                // TODO: Analyze ForMember calls
 
-                if (source == null)
-                {
-                    continue; // If there is no source, there is nothing to map
-                }
-
+                yield return new ExistingMappingDescription() ;
             }
-
-            return null;
         }
     }
 }

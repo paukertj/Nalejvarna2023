@@ -6,9 +6,7 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
     {
         bool IsAutomapperInvocation(SyntaxNode syntaxNode);
 
-        ITypeSymbol GetExistingMappingSource(SyntaxNode syntaxNode);
-
-        ITypeSymbol GetExistingMappingTarget(SyntaxNode syntaxNode);
+        ExistingMappingMapDescription GetExistingMapping(SyntaxNode syntaxNode);
 
         NewMappingMember GetNewMappingTarget(SyntaxNode syntaxNode);
 

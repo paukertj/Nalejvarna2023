@@ -6,6 +6,7 @@ using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.CreateMap;
 using SourceGeneratorDemo.Generator.Mapping.SyntaxReceivers.Map;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
 {
@@ -34,7 +35,13 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
             {
                 var memberAccessExpression = syntaxNode.FirstParentOfTypeAndSelf<MemberAccessExpressionSyntax>();
 
-                if (_semanticAnalysisService.IsAutomapperInvocation(memberAccessExpression) == false)
+                // identifierNameSyntax should be node that represents the Mapper, so f.e. in this case '_mapper.Map<object>(o)' this should '_mapper'
+                var identifierNameSyntax = memberAccessExpression?
+                    .DescendantNodes()?
+                    .OfType<IdentifierNameSyntax>()?
+                    .FirstOrDefault();
+
+                if (_semanticAnalysisService.IsAutomapperInvocation(identifierNameSyntax) == false)
                 {
                     continue; // False alarm, this is some call of 'Map' method that not belongs to Automapper
                 }
@@ -69,9 +76,11 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
 
             foreach (var syntaxNode in syntaxNodes)
             {
-                var memberAccessExpression = syntaxNode.FirstParentOfTypeAndSelf<InvocationExpressionSyntax>();
+                // identifierNameSyntax should be node that represents the Mapper, so f.e. in this case 'CreateMap<TSource, TTraget>(o)'
+                var invocationExpressionSyntax = syntaxNode
+                    .FirstParentOfTypeAndSelf<InvocationExpressionSyntax>();
 
-                if (_semanticAnalysisService.IsAutomapperInvocation(memberAccessExpression) == false)
+                if (_semanticAnalysisService.IsAutomapperInvocation(invocationExpressionSyntax) == false)
                 {
                     continue; // False alarm, this is some call of 'CreateMap' method that not belongs to Automapper
                 }

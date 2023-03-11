@@ -85,23 +85,18 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
 
         public bool IsAutomapperInvocation(SyntaxNode syntaxNode)
         {
-            var firstParentNode = syntaxNode.Parent?
-                .DescendantNodes()?
-                .OfType<IdentifierNameSyntax>()?
-                .FirstOrDefault();
-
-            // firstParentNode should be node that represents the Mapper, so f.e. in this case '_mapper.Map<object>(o)' this should be NameSyntax of '_mapper'
-
-            if (firstParentNode == null)
+            if (syntaxNode == null)
             {
                 return false;
             }
 
-            var semanticModel = _context.Compilation.GetSemanticModel(firstParentNode.SyntaxTree);
+            var semanticModel = _context.Compilation.GetSemanticModel(syntaxNode.SyntaxTree);
 
-            var declarationTypeInfo = semanticModel.GetTypeInfo(firstParentNode);
+            var declarationTypeInfo = semanticModel.GetTypeInfo(syntaxNode);
 
-            return declarationTypeInfo.Type?.ContainingNamespace?.ToDisplayString() == "AutoMapper";
+            string ns = declarationTypeInfo.Type?.ContainingNamespace?.ToDisplayString() ?? string.Empty;
+
+            return ns.StartsWith("AutoMapper");
         }
 
         private IEnumerable<IMethodSymbol> GetPublicMethodSymbols(ITypeSymbol typeSymbol, MethodKind methodKind)

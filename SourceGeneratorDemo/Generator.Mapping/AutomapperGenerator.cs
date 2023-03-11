@@ -42,7 +42,7 @@ namespace SourceGeneratorDemo.Generator.Mapping
 
         public void Initialize(GeneratorInitializationContext context)
         {
-            //Debugger.Launch();
+            Debugger.Launch();
 
             context.RegisterForSyntaxNotifications(() => _syntaxReceivingSevrvice);
         }

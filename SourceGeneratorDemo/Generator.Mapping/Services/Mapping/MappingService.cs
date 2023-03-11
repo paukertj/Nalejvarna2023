@@ -28,7 +28,7 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
         public IEnumerable<NewMappingDescription> GetMappingsToGenerate()
         {
             var syntaxNodes = _mapSyntaxReceiver.GetSyntaxNode();
-            var existingMappings = GetMappings();
+            var existingMappings = GetExitingMappings();
 
             foreach (var syntaxNode in syntaxNodes)
             {
@@ -46,7 +46,9 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
                     continue; // If there is no target, there is nothing to map
                 }
 
-                var source = _semanticAnalysisService.GetNewMappingSource(syntaxNode.Parent.Parent);
+                var invocationExpression = syntaxNode.FirstParentOfTypeAndSelf<InvocationExpressionSyntax>();
+
+                var source = _semanticAnalysisService.GetNewMappingSource(invocationExpression);
 
                 if (source == null)
                 {
@@ -61,13 +63,15 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.Mapping
             }
         }
 
-        private IEnumerable<ExistingMappingDescription> GetMappings()
+        private IEnumerable<ExistingMappingDescription> GetExitingMappings()
         {
             var syntaxNodes = _createMapSyntaxReceiver.GetSyntaxNode();
 
             foreach (var syntaxNode in syntaxNodes)
             {
-                if (_semanticAnalysisService.IsAutomapperInvocation(syntaxNode) == false)
+                var memberAccessExpression = syntaxNode.FirstParentOfTypeAndSelf<InvocationExpressionSyntax>();
+
+                if (_semanticAnalysisService.IsAutomapperInvocation(memberAccessExpression) == false)
                 {
                     continue; // False alarm, this is some call of 'CreateMap' method that not belongs to Automapper
                 }

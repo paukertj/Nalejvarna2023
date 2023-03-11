@@ -30,7 +30,7 @@ namespace SourceGeneratorDemo.Generator.Mapping.Services.SemanticAnalysis
             var argumentSyntax = syntaxNode
                 .DescendantNodes()
                 .OfType<IdentifierNameSyntax>()
-                .Last();
+                .LastOrDefault();
 
             if (argumentSyntax == null)
             {

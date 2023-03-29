@@ -10,6 +10,7 @@ Prezentace k přednášce Nalejvárna 2023 ([Bratislava](https://www.meetup.com/
 - [Dokumentace k Incremental Roslyn Code Generatorům](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.md)
 - [Andrew Lock, série článků k Incremental Roslyn Code Generatorům](https://andrewlock.net/creating-a-source-generator-part-1-creating-an-incremental-source-generator/)
 - [Stefan Pölz, JetBrains .NET Days 2022 vytvoření Incremental Roslyn Code Generatorům](https://www.jetbrains.com/dotnet/guide/tutorials/dotnet-days-online-2022/lets-build-an-incremental-source-generator-with-roslyn/)
+- [Roslyn quoter (syntax factory generator)](https://roslynquoter.azurewebsites.net/)
 
 ## Přehled pojmů
 - Roslyn, Open-source .NET compiler platform

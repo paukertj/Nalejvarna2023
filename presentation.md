@@ -62,7 +62,7 @@ Jiří Paukert (jip@ciklum.com)
 
 # Incremental source code generators
 - Umožňují generování kódu v C# a VB
-- Vyžadují alespioň .NET 6
+- Vyžadují přinejmenším .NET 6
 - Spouští se v průběhu editace kódu
 - Při analýze pracují s předchozím vygenerovaným kódem
 
